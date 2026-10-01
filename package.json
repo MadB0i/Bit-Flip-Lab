@@ -1,7 +1,7 @@
 {
   "name": "bit-flip-lab",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Deterministic bit-level fault injection and measurement lab for seeing exactly what one changed bit does.",
   "license": "MIT",
@@ -22,6 +22,7 @@
     "qa:readme": "python qa/readme_check.py",
     "qa:gif": "python qa/hero_gif.py http://127.0.0.1:4173 docs/hero.gif",
     "qa:shots": "python qa/readme_shots.py http://127.0.0.1:4173 docs",
+    "qa:social": "python qa/social_preview.py http://127.0.0.1:4173 docs/social-preview.png",
     "verify": "npm run lint && npm run test && npm run build && npm run test:e2e"
   },
   "dependencies": {
