@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 826" width="900" height="826" role="img" aria-labelledby="flowTitle flowDesc">
+  <title id="flowTitle">Bit Flip Lab experiment data flow</title>
+  <desc id="flowDesc">Ten ordered steps from input to experiment record: input, hash and inspect, bit position, original bit, mutation, mutated byte, decode, measure, diff, experiment record. Each step shows the concrete values observed in the glyph atlas experiment.</desc>
+
+  <defs>
+    <marker id="fa" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="#6b7683"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="826" fill="#0b0d10"/>
+
+  <rect x="0" y="70" width="900" height="1" fill="#222932"/>
+  <text x="40" y="28" fill="#e8ecf1" font-family="'Big Shoulders Display','Arial Narrow',sans-serif" font-size="21" letter-spacing="3.4">EXPERIMENT DATA FLOW</text>
+  <text x="40" y="50" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5" letter-spacing="1.5">EVERY STEP BELOW IS OBSERVED VALUES FROM ONE REAL RUN</text>
+  <text x="860" y="28" text-anchor="end" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5" letter-spacing="1.2">sample.bf11</text>
+
+  <!-- spine -->
+  <line x1="248" y1="96" x2="248" y2="756" stroke="#222932" stroke-width="1"/>
+
+  <!-- step boxes: top = 96 + i*68, height 50 -->
+  <!-- 1 INPUT -->
+  <rect x="60" y="96" width="376" height="50" fill="#12151a" stroke="#222932"/>
+  <text x="78" y="117" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" letter-spacing="1.5">INPUT</text>
+  <text x="78" y="134" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">64 &#215; 7 one-bit-per-pixel glyph atlas</text>
+  <text x="424" y="126" text-anchor="end" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">66 bytes</text>
+
+  <!-- 2 HASH / INSPECT -->
+  <rect x="60" y="164" width="376" height="50" fill="#12151a" stroke="#222932"/>
+  <text x="78" y="185" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" letter-spacing="1.5">HASH / INSPECT</text>
+  <text x="78" y="202" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">SHA-256 of the source; header validated</text>
+  <text x="424" y="194" text-anchor="end" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">72dfe61a&#8230;</text>
+
+  <!-- 3 BIT POSITION -->
+  <rect x="60" y="232" width="376" height="50" fill="#12151a" stroke="#222932"/>
+  <text x="78" y="253" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" letter-spacing="1.5">BIT POSITION</text>
+  <text x="78" y="270" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">MSB-first, the same order hex is read in</text>
+  <text x="424" y="262" text-anchor="end" fill="#ffb020" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">bit 90</text>
+
+  <!-- 4 ORIGINAL BIT -->
+  <rect x="60" y="300" width="376" height="50" fill="#12151a" stroke="#222932"/>
+  <text x="78" y="321" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" letter-spacing="1.5">ORIGINAL BIT</text>
+  <text x="78" y="338" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">read at the addressed offset, before any change</text>
+  <text x="424" y="330" text-anchor="end" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">1</text>
+
+  <!-- 5 MUTATION -->
+  <rect x="60" y="368" width="376" height="50" fill="#181c23" stroke="#ffb020"/>
+  <rect x="60" y="368" width="3" height="50" fill="#ffb020"/>
+  <text x="78" y="389" fill="#ffb020" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" letter-spacing="1.5">MUTATION</text>
+  <text x="78" y="406" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">one bit inverted in a copied buffer</text>
+  <text x="424" y="398" text-anchor="end" fill="#ffb020" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">1 &#8594; 0</text>
+
+  <!-- 6 MUTATED BYTE -->
+  <rect x="60" y="436" width="376" height="50" fill="#12151a" stroke="#222932"/>
+  <text x="78" y="457" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" letter-spacing="1.5">MUTATED BYTE</text>
+  <text x="78" y="474" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">exactly one byte differs, by one power of two</text>
+  <text x="424" y="466" text-anchor="end" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">0x000B  F8&#8594;D8</text>
+
+  <!-- 7 DECODE -->
+  <rect x="60" y="504" width="376" height="50" fill="#12151a" stroke="#222932"/>
+  <text x="78" y="525" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" letter-spacing="1.5">DECODE</text>
+  <text x="78" y="542" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">both buffers decoded independently; a failure is recorded</text>
+  <text x="424" y="534" text-anchor="end" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">structure valid</text>
+
+  <!-- 8 MEASURE -->
+  <rect x="60" y="572" width="376" height="50" fill="#12151a" stroke="#222932"/>
+  <text x="78" y="593" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" letter-spacing="1.5">MEASURE</text>
+  <text x="78" y="610" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">compared pixel by pixel; severity by rule</text>
+  <text x="424" y="602" text-anchor="end" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">1 of 448 pixels</text>
+
+  <!-- 9 DIFF -->
+  <rect x="60" y="640" width="376" height="50" fill="#12151a" stroke="#222932"/>
+  <text x="78" y="661" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" letter-spacing="1.5">DIFF</text>
+  <text x="78" y="678" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">changed region located and bracketed</text>
+  <text x="424" y="670" text-anchor="end" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">x10 y0  1&#215;1</text>
+
+  <!-- 10 EXPERIMENT RECORD -->
+  <rect x="60" y="708" width="376" height="50" fill="#181c23" stroke="#ffb020"/>
+  <rect x="60" y="708" width="3" height="50" fill="#ffb020"/>
+  <text x="78" y="729" fill="#ffb020" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" letter-spacing="1.5">EXPERIMENT RECORD</text>
+  <text x="78" y="746" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">id derived from content, not from a clock</text>
+  <text x="424" y="738" text-anchor="end" fill="#ffb020" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">reproducible</text>
+
+  <!-- arrows -->
+  <g stroke="#6b7683" stroke-width="1" marker-end="url(#fa)">
+    <line x1="248" y1="146" x2="248" y2="162"/>
+    <line x1="248" y1="214" x2="248" y2="230"/>
+    <line x1="248" y1="282" x2="248" y2="298"/>
+    <line x1="248" y1="350" x2="248" y2="366"/>
+  </g>
+  <line x1="248" y1="418" x2="248" y2="434" stroke="#ffb020" stroke-width="1" marker-end="url(#fa)"/>
+  <g stroke="#6b7683" stroke-width="1" marker-end="url(#fa)">
+    <line x1="248" y1="486" x2="248" y2="502"/>
+    <line x1="248" y1="554" x2="248" y2="570"/>
+    <line x1="248" y1="622" x2="248" y2="638"/>
+    <line x1="248" y1="690" x2="248" y2="706"/>
+  </g>
+
+  <!-- right column: the record's fields, verbatim from a real run -->
+  <rect x="470" y="96" width="390" height="50" fill="#12151a" stroke="#222932"/>
+  <text x="488" y="117" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10" letter-spacing="1.4">SHA-256 &#183; BEFORE AND AFTER THE MUTATION</text>
+  <text x="488" y="134" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10">72dfe61a6371b0b5d2c7ea9c4cbffd386efed1d&#8230;  before</text>
+  <text x="488" y="147" fill="#ffb020" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10">c1c563e58ac1aeca782d31d3a970de84fc57b95&#8230;  after</text>
+
+  <rect x="470" y="164" width="390" height="186" fill="#0b0d10" stroke="#222932"/>
+  <text x="488" y="186" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10" letter-spacing="1.4">RECORD FIELDS</text>
+  <g font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10">
+    <text x="488" y="208" fill="#7d8794">record id</text>
+    <text x="640" y="208" fill="#e8ecf1">EXP-&#8230;  derived from source + bit + digest</text>
+    <text x="488" y="228" fill="#7d8794">source</text>
+    <text x="640" y="228" fill="#e8ecf1">sample.bf11  66 bytes</text>
+    <text x="488" y="248" fill="#7d8794">bit offset</text>
+    <text x="640" y="248" fill="#e8ecf1">90  (byte 0x000B, bit 2 from left)</text>
+    <text x="488" y="268" fill="#7d8794">byte</text>
+    <text x="640" y="268" fill="#e8ecf1">F8 &#8594; D8   xor 0x20</text>
+    <text x="488" y="288" fill="#7d8794">bytes changed</text>
+    <text x="640" y="288" fill="#e8ecf1">1</text>
+    <text x="488" y="308" fill="#7d8794">pixels changed</text>
+    <text x="640" y="308" fill="#e8ecf1">1 of 448</text>
+    <text x="488" y="328" fill="#7d8794">severity</text>
+    <text x="640" y="328" fill="#ffb020">Minor  +  the rule that produced it</text>
+  </g>
+
+  <rect x="470" y="368" width="390" height="124" fill="#0b0d10" stroke="#222932"/>
+  <text x="488" y="390" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10" letter-spacing="1.4">REPRODUCIBILITY</text>
+  <g font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10" fill="#9ba6b4">
+    <text x="488" y="412">Same source bytes + same bit offset</text>
+    <text x="488" y="430">&#8594; identical mutated buffer</text>
+    <text x="488" y="448">&#8594; identical SHA-256 before and after</text>
+    <text x="488" y="466">&#8594; identical severity, from the same rule</text>
+  </g>
+  <text x="488" y="484" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">Verifiable in the app: Experiments &#8594; Verify reproduction</text>
+
+  <rect x="470" y="510" width="390" height="248" fill="#0b0d10" stroke="#222932"/>
+  <text x="488" y="532" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10" letter-spacing="1.4">WHAT IS NOT CLAIMED</text>
+  <g font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10" fill="#9ba6b4">
+    <text x="488" y="556">No consequence is invented.</text>
+    <text x="488" y="578">A format with no decoder is</text>
+    <text x="488" y="596">reported as unclassified.</text>
+    <text x="488" y="618">Decode failure is stated only</text>
+    <text x="488" y="636">when a decode actually failed.</text>
+    <text x="488" y="658">A 1-of-255 pixel change is</text>
+    <text x="488" y="676">reported as 1 of 255, not</text>
+    <text x="488" y="694">exaggerated by amplification.</text>
+    <text x="488" y="716">Severity is the only verdict,</text>
+    <text x="488" y="734">and its rule is printed.</text>
+  </g>
+</svg>

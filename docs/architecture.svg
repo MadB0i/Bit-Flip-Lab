@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 792" width="900" height="792" role="img" aria-labelledby="archTitle archDesc">
+  <title id="archTitle">Bit Flip Lab experiment pipeline</title>
+  <desc id="archDesc">A vertical pipeline: source, inspector, bit selector, mutation engine, decoder or adapter, measurement, comparison. Comparison fans out to a difference view, a butterfly sensitivity map, and an experiment record.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="#6b7683"/>
+    </marker>
+    <marker id="arrowAccent" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="#ffb020"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="792" fill="#0b0d10"/>
+
+  <rect x="0" y="72" width="900" height="1" fill="#222932"/>
+  <text x="40" y="30" fill="#e8ecf1" font-family="'Big Shoulders Display','Arial Narrow',sans-serif" font-size="21" letter-spacing="3.4">EXPERIMENT PIPELINE</text>
+  <text x="40" y="52" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5" letter-spacing="1.5">EVERY STAGE IS A SEPARATE, TESTED UNIT</text>
+  <text x="860" y="30" text-anchor="end" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5" letter-spacing="1.2">src/core</text>
+
+  <!-- spine -->
+  <line x1="282" y1="96" x2="282" y2="658" stroke="#222932" stroke-width="1"/>
+
+  <!-- 1 SOURCE -->
+  <rect x="60" y="96" width="344" height="58" fill="#12151a" stroke="#222932"/>
+  <rect x="60" y="96" width="3" height="58" fill="#6b7683"/>
+  <text x="80" y="120" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="14" letter-spacing="1.6">SOURCE</text>
+  <text x="80" y="140" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">a built-in sample, or bytes read here</text>
+  <text x="428" y="129" fill="#57626f" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">DataSource</text>
+
+  <!-- 2 INSPECTOR -->
+  <rect x="60" y="180" width="344" height="58" fill="#12151a" stroke="#222932"/>
+  <rect x="60" y="180" width="3" height="58" fill="#6b7683"/>
+  <text x="80" y="204" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="14" letter-spacing="1.6">INSPECTOR</text>
+  <text x="80" y="224" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">named regions, signature, structure</text>
+  <text x="428" y="213" fill="#57626f" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">Inspection</text>
+
+  <!-- 3 BIT SELECTOR -->
+  <rect x="60" y="264" width="344" height="58" fill="#12151a" stroke="#222932"/>
+  <rect x="60" y="264" width="3" height="58" fill="#6b7683"/>
+  <text x="80" y="288" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="14" letter-spacing="1.6">BIT SELECTOR</text>
+  <text x="80" y="308" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">one bit, MSB-first, over the buffer</text>
+  <text x="428" y="297" fill="#57626f" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">bitOffset</text>
+
+  <!-- 4 MUTATION ENGINE  (the only amber stage) -->
+  <rect x="60" y="348" width="344" height="58" fill="#181c23" stroke="#ffb020"/>
+  <rect x="60" y="348" width="3" height="58" fill="#ffb020"/>
+  <text x="80" y="372" fill="#ffb020" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="14" letter-spacing="1.6">MUTATION ENGINE</text>
+  <text x="80" y="392" fill="#9ba6b4" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">pure; the source buffer is never written</text>
+  <text x="428" y="381" fill="#ffb020" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">flipBit</text>
+
+  <!-- 5 DECODER / ADAPTER -->
+  <rect x="60" y="432" width="344" height="58" fill="#12151a" stroke="#222932"/>
+  <rect x="60" y="432" width="3" height="58" fill="#6b7683"/>
+  <text x="80" y="456" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="14" letter-spacing="1.6">DECODER / ADAPTER</text>
+  <text x="80" y="476" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">decodes or validates; never executes</text>
+  <text x="428" y="465" fill="#57626f" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">Execution</text>
+
+  <!-- 6 MEASUREMENT -->
+  <rect x="60" y="516" width="344" height="58" fill="#12151a" stroke="#222932"/>
+  <rect x="60" y="516" width="3" height="58" fill="#6b7683"/>
+  <text x="80" y="540" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="14" letter-spacing="1.6">MEASUREMENT</text>
+  <text x="80" y="560" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">byte delta, fields, pixels, digests</text>
+  <text x="428" y="549" fill="#57626f" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">Measurement</text>
+
+  <!-- 7 COMPARISON -->
+  <rect x="60" y="600" width="344" height="58" fill="#12151a" stroke="#222932"/>
+  <rect x="60" y="600" width="3" height="58" fill="#6b7683"/>
+  <text x="80" y="624" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="14" letter-spacing="1.6">COMPARISON</text>
+  <text x="80" y="644" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="10.5">severity by rule, with the rule shown</text>
+  <text x="428" y="633" fill="#57626f" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">Comparison</text>
+
+  <!-- spine arrows -->
+  <g stroke="#6b7683" stroke-width="1" marker-end="url(#arrow)">
+    <line x1="282" y1="154" x2="282" y2="178"/>
+    <line x1="282" y1="238" x2="282" y2="262"/>
+    <line x1="282" y1="322" x2="282" y2="346"/>
+  </g>
+  <line x1="282" y1="406" x2="282" y2="430" stroke="#ffb020" stroke-width="1" marker-end="url(#arrowAccent)"/>
+  <g stroke="#6b7683" stroke-width="1" marker-end="url(#arrow)">
+    <line x1="282" y1="490" x2="282" y2="514"/>
+    <line x1="282" y1="574" x2="282" y2="598"/>
+  </g>
+
+  <!-- branch out of COMPARISON -->
+  <g stroke="#6b7683" stroke-width="1" fill="none">
+    <path d="M404 652 L500 652 L500 607 L556 607" marker-end="url(#arrow)"/>
+    <path d="M404 652 L500 652 L500 667 L556 667" marker-end="url(#arrow)"/>
+    <path d="M404 652 L500 652 L500 727 L556 727" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- terminals -->
+  <rect x="564" y="585" width="296" height="44" fill="#181c23" stroke="#222932"/>
+  <text x="584" y="603" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="12.5" letter-spacing="1.4">DIFFERENCE VIEW</text>
+  <text x="584" y="619" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">changed region bracketed and located</text>
+
+  <rect x="564" y="645" width="296" height="44" fill="#181c23" stroke="#222932"/>
+  <text x="584" y="663" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="12.5" letter-spacing="1.4">BUTTERFLY MAP</text>
+  <text x="584" y="679" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">bounded sweep, one measurement per position</text>
+
+  <rect x="564" y="705" width="296" height="44" fill="#181c23" stroke="#222932"/>
+  <text x="584" y="723" fill="#e8ecf1" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="12.5" letter-spacing="1.4">EXPERIMENT RECORD</text>
+  <text x="584" y="739" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5">content-derived id, reproducible by re-running</text>
+
+  <!-- footnote -->
+  <rect x="0" y="766" width="900" height="1" fill="#222932"/>
+  <text x="40" y="784" fill="#7d8794" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="9.5" letter-spacing="0.8">ONE ADAPTER PER FORMAT. ADDING A SOURCE FORMAT NEEDS NO PIPELINE, STATE OR UI CHANGE.</text>
+</svg>

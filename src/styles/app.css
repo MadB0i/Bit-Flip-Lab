@@ -1,0 +1,1584 @@
+/*
+ * BIT FLIP LAB — component layer
+ * Every value below resolves to a token in tokens.css. If a number appears
+ * here that is not a token, it is a defect.
+ */
+
+/* ══ SHELL ═══════════════════════════════════════════════════════════════ */
+
+.shell {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100dvh;
+}
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs) var(--space-l);
+  padding: var(--space-s) var(--space-m);
+  background: var(--base);
+  border-bottom: 1px solid var(--line);
+}
+
+.wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.wordmark__mark {
+  color: var(--accent);
+}
+
+.wordmark__sub {
+  font-family: var(--font-text);
+  font-size: var(--step--2);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+
+.nav {
+  display: flex;
+  margin-left: auto;
+  border: 1px solid var(--line);
+}
+
+.nav__item {
+  padding: var(--space-3xs) var(--space-s);
+  border-left: 1px solid var(--line);
+  background: none;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  font-size: var(--step--1);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
+}
+
+.nav__item:first-child {
+  border-left: 0;
+}
+
+.nav__item:hover {
+  color: var(--ink);
+  background: var(--surface-2);
+}
+
+.nav__item[aria-current="page"] {
+  color: var(--base);
+  background: var(--ink-2);
+}
+
+.nav__item:disabled {
+  color: var(--ink-3);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: var(--rail-w) minmax(0, 1fr) 20rem;
+  align-items: start;
+  min-width: 0;
+}
+
+.rail {
+  position: sticky;
+  top: 4.25rem;
+  display: grid;
+  gap: var(--space-l);
+  padding: var(--space-m);
+  border-right: 1px solid var(--line);
+  min-width: 0;
+}
+
+.stage {
+  display: grid;
+  gap: var(--space-l);
+  padding: var(--space-m);
+  min-width: 0;
+}
+
+.side {
+  position: sticky;
+  top: 4.25rem;
+  display: grid;
+  gap: var(--space-l);
+  padding: var(--space-m) var(--space-m) var(--space-m) 0;
+  min-width: 0;
+}
+
+/*
+ * A single-column wrapper for views with no instrument rail. It is a plain
+ * block on purpose: the `.stage` child supplies its own grid, so declaring
+ * grid columns here would be an inert declaration that reads like a layout.
+ */
+.workspace--wide {
+  display: block;
+}
+
+/* Two-panel views have no right-hand column. Declaring it explicitly prevents
+   the grid reserving an empty 20rem track at the right edge. */
+.workspace--rail-stage {
+  grid-template-columns: var(--rail-w) minmax(0, 1fr);
+}
+
+.workspace--wide .stage {
+  padding: var(--space-m) var(--space-xl) var(--space-3xl);
+  gap: var(--space-xl);
+}
+
+/* ══ PANELS ══════════════════════════════════════════════════════════════ */
+
+.panel {
+  background: var(--surface);
+  border: var(--border);
+  min-width: 0;
+}
+
+.panel__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-s);
+  border-bottom: 1px solid var(--line);
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.panel__head--accent {
+  color: var(--accent);
+}
+
+.panel__title {
+  font-size: var(--step--2);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.panel__note {
+  margin-left: auto;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+.panel__body {
+  padding: var(--space-s);
+}
+
+.panel__body--flush {
+  padding: 0;
+}
+
+.panel--empty .panel__body {
+  padding: var(--space-l) var(--space-s);
+}
+
+/* ══ CONTROLS ════════════════════════════════════════════════════════════ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-height: 2.75rem;
+  padding: var(--space-2xs) var(--space-s);
+  background: var(--surface-3);
+  color: var(--ink);
+  border: var(--border-strong);
+  border-radius: var(--radius);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--line-strong);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  color: var(--ink-3);
+  background: var(--surface-2);
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #ffc451;
+}
+
+.btn--primary:disabled {
+  background: var(--surface-2);
+  border-color: var(--line);
+  color: var(--ink-3);
+}
+
+.btn--quiet {
+  background: none;
+  border-color: var(--line);
+  color: var(--ink-2);
+}
+
+.btn--quiet:hover:not(:disabled) {
+  color: var(--ink);
+  border-color: var(--line-strong);
+  background: var(--surface-2);
+}
+
+.btn--wide {
+  width: 100%;
+}
+
+.btn[aria-busy="true"] {
+  cursor: progress;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-3xs);
+}
+
+.field__label {
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.field__input {
+  min-height: 2.75rem;
+  padding: var(--space-2xs) var(--space-2xs);
+  background: var(--surface-2);
+  border: var(--border-strong);
+  border-radius: var(--radius);
+  font-variant-numeric: tabular-nums;
+}
+
+.field__hint {
+  font-size: var(--step--2);
+  color: var(--ink-3);
+}
+
+.segmented {
+  display: flex;
+  border: var(--border-strong);
+}
+
+.segmented__option {
+  flex: 1;
+  min-height: 2.75rem;
+  padding: var(--space-2xs) var(--space-2xs);
+  background: var(--surface-2);
+  border: 0;
+  border-left: var(--border-strong);
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.segmented__option:first-child {
+  border-left: 0;
+}
+
+.segmented__option:hover {
+  color: var(--ink);
+}
+
+.segmented__option[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.segmented__option:disabled {
+  color: var(--ink-3);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ══ SOURCE LIST ═════════════════════════════════════════════════════════ */
+
+.source-list {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: var(--border);
+}
+
+.source {
+  display: grid;
+  gap: var(--space-3xs);
+  padding: var(--space-2xs) var(--space-2xs);
+  background: var(--surface);
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.source:hover {
+  background: var(--surface-3);
+}
+
+.source[aria-pressed="true"] {
+  background: var(--surface-3);
+  border-left: 3px solid var(--accent);
+  padding-left: calc(var(--space-2xs) - 3px);
+}
+
+.source__name {
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.source__meta {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-2xs);
+  font-size: var(--step--2);
+  /* ink-2, not ink-3: this text sits on --surface-3 when the sample is
+     selected, and ink-3 measures 4.17:1 there — below the 4.5:1 floor. */
+  color: var(--ink-2);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.source__meta > span:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.source__kind {
+  color: var(--ink-2);
+  border: 1px solid var(--line-strong);
+  padding: 0 var(--space-3xs);
+}
+
+.dropzone {
+  display: grid;
+  gap: var(--space-2xs);
+  padding: var(--space-s);
+  border: 1px dashed var(--line-strong);
+  text-align: center;
+  font-size: var(--step--2);
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
+}
+
+.dropzone:hover,
+.dropzone[data-drag="true"] {
+  border-color: var(--accent);
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+
+/* ══ READOUTS ═════════════════════════════════════════════════════════════ */
+
+.readout {
+  display: grid;
+  gap: 0;
+}
+
+.readout__row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.readout__row:last-child {
+  border-bottom: 0;
+}
+
+.readout__label {
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding-top: 1px;
+}
+
+.readout__value {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: var(--step--1);
+  color: var(--ink);
+  text-align: right;
+  min-width: 0;
+  margin-left: auto;
+  overflow-wrap: anywhere;
+}
+
+.readout__value--accent {
+  color: var(--accent);
+}
+
+.readout__value--muted {
+  color: var(--ink-3);
+}
+
+.readout__value--wrap {
+  text-align: left;
+  font-size: var(--step--2);
+  line-height: 1.5;
+}
+
+/* A digest is 64 hex characters and must be shown in full: it is the
+   evidence that the record is reproducible. Stacked so it never truncates. */
+.digest {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-3xs) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.digest:last-child {
+  border-bottom: 0;
+}
+
+.digest__label {
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.digest__value {
+  font-size: var(--step--2);
+  line-height: 1.6;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+  letter-spacing: 0.02em;
+}
+
+.digest__value--after {
+  color: var(--accent);
+}
+
+/* ══ FACTS ═══════════════════════════════════════════════════════════════ */
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: var(--space-2xs) var(--space-m);
+}
+
+.fact {
+  display: grid;
+  gap: 0;
+  padding-bottom: var(--space-2xs);
+  border-bottom: 1px solid var(--line);
+}
+
+.fact__label {
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.fact__value {
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ══ FLIP EVENT ══════════════════════════════════════════════════════════ */
+
+.flip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-m);
+}
+
+.flip__stage {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-s);
+  align-items: center;
+}
+
+.flip__label {
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.bitfield {
+  display: flex;
+  gap: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.bitfield__bit {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.9rem;
+  border: 1px solid var(--line);
+  font-size: var(--step-0);
+  color: var(--ink-2);
+  background: var(--surface-2);
+}
+
+.bitfield__bit--changed {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.bitfield__bit--struck {
+  /* Decoration only. Setting a colour here would override the inverted
+     foreground of --changed and drop the original value to 2:1 on the accent. */
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.hexpair {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  font-size: var(--step-1);
+  font-variant-numeric: tabular-nums;
+}
+
+.hexpair__arrow {
+  color: var(--ink-3);
+}
+
+.hexpair__to {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* The causality rail: one travelling measurement bar, five stages. */
+.causal {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+
+.causal__stage {
+  position: relative;
+  display: grid;
+  gap: var(--space-3xs);
+  padding: var(--space-2xs) var(--space-2xs) var(--space-2xs) 0;
+  padding-left: var(--space-2xs);
+  border-left: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.causal__stage:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.causal__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.causal__stage[data-state="measured"] .causal__fill {
+  transform: scaleX(1);
+}
+
+.causal__stage:nth-child(2) .causal__fill {
+  transition-delay: 60ms;
+}
+
+.causal__stage:nth-child(3) .causal__fill {
+  transition-delay: 120ms;
+}
+
+.causal__stage:nth-child(4) .causal__fill {
+  transition-delay: 180ms;
+}
+
+.causal__stage:nth-child(5) .causal__fill {
+  transition-delay: 240ms;
+}
+
+.causal__stage[data-state="unmeasured"] .causal__fill {
+  transform: scaleX(0);
+}
+
+.causal__name {
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.causal__stage[data-state="measured"] .causal__name {
+  color: var(--ink-2);
+}
+
+.causal__value {
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.causal__value--dim {
+  color: var(--ink-3);
+}
+
+/* ══ BYTE INSPECTOR ══════════════════════════════════════════════════════ */
+
+.inspector {
+  max-height: 26rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.inspector__row {
+  display: grid;
+  grid-template-columns: var(--addr-w) minmax(0, 1fr);
+  /* Bottom-aligned: the address must sit on the same line as its bits, not
+     beside the hex sub-label of the previous row. */
+  align-items: end;
+  gap: var(--space-2xs);
+  height: var(--byte-row-h);
+  padding: 0 var(--space-s);
+  border-bottom: 1px solid var(--line);
+}
+
+.inspector__row[data-changed="true"] {
+  background: var(--surface-2);
+}
+
+.inspector__row[data-selected="true"] {
+  outline: 1px solid var(--line-strong);
+  outline-offset: -1px;
+}
+
+.inspector__addr {
+  font-size: var(--step--2);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  padding-bottom: 1px;
+}
+
+.inspector__bytes {
+  display: flex;
+  gap: var(--space-2xs);
+  min-width: 0;
+}
+
+.byte {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 1px;
+  min-width: 0;
+}
+
+.byte__hex {
+  height: 0.75rem;
+  line-height: 0.75rem;
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-align: center;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+}
+
+.byte--changed .byte__hex {
+  color: var(--accent);
+}
+
+.byte--changed .byte__bits {
+  outline: 1px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.byte--selected .byte__hex {
+  color: var(--ink);
+}
+
+.byte__bits {
+  display: grid;
+  grid-template-columns: repeat(8, var(--bit-w));
+  gap: 1px;
+}
+
+.bit {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  height: 1rem;
+  padding: 0;
+  background: var(--surface-2);
+  border: 0;
+  border-top: 1px solid transparent;
+  font-size: var(--step--2);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.bit[data-set="true"] {
+  color: var(--ink);
+  background: var(--surface-3);
+}
+
+.bit:hover {
+  background: var(--line-strong);
+  color: var(--base);
+}
+
+.bit[data-flipped="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+  /* Struck through to match the flip event: this is the value that changed. */
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.bit[data-marker="region-start"] {
+  border-top-color: var(--line-strong);
+}
+
+.region-bar {
+  display: flex;
+  gap: var(--space-2xs);
+  padding: 0 var(--space-s) var(--space-2xs) var(--space-s);
+  margin-left: var(--addr-w);
+}
+
+.region-bar__seg {
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  border-top: 1px solid var(--line-strong);
+  padding-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.region-bar__seg[data-role="magic"],
+.region-bar__seg[data-role="length"],
+.region-bar__seg[data-role="integrity"] {
+  color: var(--accent);
+  border-top-color: var(--accent);
+}
+
+/* ══ BIT PICKER ══════════════════════════════════════════════════════════ */
+
+.bit-picker {
+  display: grid;
+  gap: var(--space-2xs);
+}
+
+.bit-picker__caption {
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.bit-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3xs);
+}
+
+.bit-picker__bit {
+  display: grid;
+  place-items: center;
+  gap: 0;
+  /* 44px is the practical minimum touch target; the control is a data input,
+     not a compact instrument cell. */
+  min-height: 3rem;
+  padding: var(--space-3xs);
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+
+.bit-picker__bit:hover {
+  background: var(--surface-3);
+  border-color: var(--accent);
+}
+
+.bit-picker__index {
+  font-size: var(--step--2);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.bit-picker__value {
+  font-size: var(--step-1);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.bit-picker__bit[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.bit-picker__bit[aria-pressed="true"] .bit-picker__index,
+.bit-picker__bit[aria-pressed="true"] .bit-picker__value {
+  color: var(--accent-ink);
+}
+
+.bit-picker__marker {
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.bit-picker__bit[aria-pressed="true"] .bit-picker__marker {
+  color: var(--accent-ink);
+  text-decoration: line-through;
+}
+
+/* ══ SEVERITY ════════════════════════════════════════════════════════════ */
+
+.severity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  font-size: var(--step--1);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--severity-color, var(--ink));
+}
+
+.severity__glyph {
+  font-size: var(--step-0);
+  line-height: 1;
+}
+
+.severity-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: var(--space-2xs) var(--space-s);
+}
+
+.severity-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-s);
+  font-size: var(--step--2);
+  color: var(--ink-3);
+}
+
+/* ══ TABLES ═══════════════════════════════════════════════════════════════ */
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.table th,
+.table td {
+  padding: var(--space-2xs) var(--space-2xs);
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.table th {
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 400;
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+}
+
+.table td.num,
+.table th.num {
+  text-align: right;
+}
+
+.table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.table tbody tr[aria-selected="true"] {
+  background: var(--surface-3);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+/* A stacked before/after list for the narrow instrument rail, where a
+   three-column table would have to scroll horizontally to be read. */
+.field-delta {
+  display: grid;
+  gap: 0;
+}
+
+.field-delta__row {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-3xs) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.field-delta__row:last-child {
+  border-bottom: 0;
+}
+
+.field-delta__label {
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.field-delta__pair {
+  display: grid;
+  gap: 1px;
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+.field-delta__before {
+  color: var(--ink-3);
+  overflow-wrap: anywhere;
+}
+
+.field-delta__arrow {
+  color: var(--ink-3);
+}
+
+.field-delta__after {
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.field-delta__result {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.field-delta__after[data-changed="true"] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.table__empty td {
+  padding: var(--space-l) var(--space-2xs);
+  color: var(--ink-3);
+  text-align: center;
+  white-space: normal;
+}
+
+.row-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line-strong);
+}
+
+.row-button:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+/* Numbered, so a sequence of actions is not mistaken for a list of facts. */
+.steps {
+  display: grid;
+  gap: var(--space-2xs);
+  counter-reset: step;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: 1.25rem minmax(0, 1fr);
+  gap: var(--space-2xs);
+  font-size: var(--step--1);
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 72ch;
+}
+
+.steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.15rem;
+  background: var(--surface-3);
+  color: var(--accent);
+  font-size: var(--step--2);
+  font-variant-numeric: tabular-nums;
+}
+
+.steps strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ══ DIFF / IMAGE ════════════════════════════════════════════════════════ */
+
+.compare {
+  display: grid;
+  gap: var(--space-l);
+}
+
+.compare__stage {
+  display: grid;
+  gap: var(--space-2xs);
+}
+
+.compare__label {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2xs);
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.image-plate {
+  display: grid;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs);
+  background: var(--surface-2);
+  border: var(--border);
+  overflow: auto;
+}
+
+.image-plate__canvas {
+  image-rendering: pixelated;
+  background: #000;
+  width: 100%;
+  height: auto;
+}
+
+.image-plate__frame {
+  display: inline-block;
+  position: relative;
+}
+
+.image-missing {
+  display: grid;
+  gap: var(--space-2xs);
+  padding: var(--space-l) var(--space-s);
+  border: 1px dashed var(--line-strong);
+  color: var(--ink-3);
+  font-size: var(--step--1);
+}
+
+/* ══ BUTTERFLY ═══════════════════════════════════════════════════════════ */
+
+.sensitivity {
+  display: grid;
+  gap: var(--space-2xs);
+}
+
+.sensitivity__canvas {
+  width: 100%;
+  height: 7.5rem;
+  border: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.sensitivity__axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--step--2);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress {
+  display: grid;
+  gap: var(--space-3xs);
+}
+
+.progress__bar {
+  height: 2px;
+  background: var(--surface-3);
+}
+
+.progress__fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width var(--dur) var(--ease-out);
+}
+
+/* ══ STATES ══════════════════════════════════════════════════════════════ */
+
+.state {
+  display: grid;
+  gap: var(--space-2xs);
+  padding: var(--space-l) var(--space-s);
+  text-align: left;
+}
+
+.state__title {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.state__body {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  max-width: 56ch;
+}
+
+.state--error .state__title {
+  color: var(--sev-critical);
+}
+
+.state--unsupported .state__title {
+  color: var(--sev-major);
+}
+
+.state__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-top: var(--space-2xs);
+}
+
+.empty-grid {
+  display: grid;
+  gap: var(--space-l);
+  place-items: center;
+  min-height: 60dvh;
+  text-align: center;
+  padding: var(--space-l) var(--space-m);
+}
+
+.empty-grid__inner {
+  display: grid;
+  gap: var(--space-s);
+  justify-items: center;
+  /* Wide enough for the four sample controls on one row. The body copy keeps
+     its own narrower measure via .empty-grid__body. */
+  max-width: 64ch;
+}
+
+.empty-grid__title {
+  font-family: var(--font-display);
+  font-size: var(--step-5);
+  line-height: var(--leading-display);
+  letter-spacing: 0.02em;
+}
+
+.empty-grid__line {
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.empty-grid__body {
+  font-size: var(--step-0);
+  color: var(--ink-2);
+  max-width: 52ch;
+}
+
+.skeleton {
+  display: grid;
+  gap: var(--space-3xs);
+}
+
+.skeleton__row {
+  height: var(--byte-row-h);
+  background: var(--surface-2);
+}
+
+/* ══ DIALOG ══════════════════════════════════════════════════════════════ */
+
+dialog.sheet {
+  width: min(46rem, calc(100vw - 2 * var(--space-m)));
+  max-height: 84dvh;
+  padding: 0;
+  background: var(--surface);
+  color: var(--ink);
+  border: var(--border-strong);
+  border-radius: var(--radius);
+}
+
+dialog.sheet::backdrop {
+  background: rgb(4 5 7 / 78%);
+}
+
+.sheet__head {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-s);
+  background: var(--surface);
+  border-bottom: var(--border-strong);
+}
+
+.sheet__title {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  letter-spacing: 0.04em;
+}
+
+.sheet__body {
+  display: grid;
+  gap: var(--space-m);
+  padding: var(--space-m);
+}
+
+.icon-btn {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  background: none;
+  border: var(--border);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.icon-btn:hover {
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+
+/* ══ PROSE ═══════════════════════════════════════════════════════════════ */
+
+.prose {
+  display: grid;
+  gap: var(--space-m);
+  max-width: 68ch;
+}
+
+.prose h2 {
+  font-size: var(--step-2);
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: var(--space-3xs);
+}
+
+.prose h3 {
+  font-size: var(--step-1);
+  color: var(--ink);
+}
+
+.prose p,
+.prose li {
+  color: var(--ink-2);
+  font-size: var(--step--1);
+  line-height: 1.7;
+}
+
+.prose ul {
+  display: grid;
+  gap: var(--space-2xs);
+  padding-left: var(--space-s);
+}
+
+.prose li {
+  position: relative;
+}
+
+.prose li::before {
+  content: "—";
+  position: absolute;
+  left: calc(-1 * var(--space-s));
+  color: var(--ink-3);
+}
+
+.prose code {
+  color: var(--ink);
+  background: var(--surface-2);
+  padding: 0 0.3em;
+}
+
+.prose a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+.definition {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: var(--space-2xs) var(--space-m);
+  padding-bottom: var(--space-2xs);
+  border-bottom: 1px solid var(--line);
+}
+
+.definition dt {
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.definition dd {
+  margin: 0;
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.definition dd a {
+  color: var(--accent);
+}
+
+/* ══ LIVE STATUS ═════════════════════════════════════════════════════════ */
+
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.status-line__dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  background: var(--ink-3);
+}
+
+.status-line[data-state="ready"] .status-line__dot {
+  background: var(--accent);
+}
+
+.status-line[data-state="busy"] .status-line__dot {
+  background: var(--ink-2);
+}
+
+/* ══ RESPONSIVE ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 74rem) {
+  .workspace {
+    grid-template-columns: var(--rail-w) minmax(0, 1fr);
+  }
+
+  .side {
+    grid-column: 1 / -1;
+    position: static;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    padding: 0 var(--space-m) var(--space-l);
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 52rem) {
+  .masthead {
+    padding: var(--space-2xs) var(--space-s);
+  }
+
+  .nav {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .nav__item {
+    flex: 1;
+    padding: var(--space-2xs) var(--space-3xs);
+    letter-spacing: 0.06em;
+  }
+
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rail,
+  .stage,
+  .side {
+    position: static;
+    padding: var(--space-s);
+    border-right: 0;
+  }
+
+  /* Recompose, do not merely shrink: on a narrow screen the experiment is the
+     first thing that matters. Source and inspection move below it. */
+  .stage {
+    order: 1;
+  }
+
+  .rail {
+    order: 2;
+    border-top: 1px solid var(--line);
+  }
+
+  .side {
+    order: 3;
+    grid-template-columns: minmax(0, 1fr);
+    border-top: 1px solid var(--line);
+  }
+
+  .causal {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .causal__stage:nth-child(1) {
+    grid-column: 1 / -1;
+  }
+
+  .flip__stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .flip__label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .bitfield__bit {
+    width: 1.35rem;
+    height: 1.7rem;
+  }
+
+  .definition {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 34rem) {
+  /* Four bytes no longer fit: narrow the bit cells and the address gutter
+     rather than let the row wrap, which would break the fixed row pitch. */
+  :root {
+    --bit-w: 0.45rem;
+    --addr-w: 3.5rem;
+  }
+
+  .inspector__row {
+    padding: 0 var(--space-2xs);
+    gap: var(--space-3xs);
+  }
+
+  .empty-grid__title {
+    font-size: var(--step-4);
+  }
+}
+
+/*
+ * Touch targets.
+ *
+ * A dense hex/bit grid is the correct instrument for a mouse, where a 9px bit
+ * cell is precise. On touch it is unusable: eight adjacent 9px targets cannot
+ * be hit reliably, and WCAG 2.2 SC 2.5.8 sets 24×24 CSS px as the floor. For
+ * coarse pointers each bit therefore becomes a full-size target and the row
+ * holds a single byte. Density is traded for reachability, deliberately.
+ */
+@media (pointer: coarse) {
+  :root {
+    --bit-w: 1.5rem;
+    --addr-w: 3.5rem;
+    --byte-row-h: 2.75rem;
+  }
+
+  .bit {
+    height: 1.5rem;
+    font-size: var(--step--1);
+  }
+
+  .byte__hex {
+    height: 1rem;
+    line-height: 1rem;
+    font-size: var(--step--1);
+  }
+
+  .inspector__bytes {
+    gap: var(--space-s);
+  }
+
+  .byte__bits {
+    gap: var(--space-3xs);
+  }
+
+  .bitfield__bit {
+    width: 2.25rem;
+    height: 2.5rem;
+    font-size: var(--step-1);
+  }
+}

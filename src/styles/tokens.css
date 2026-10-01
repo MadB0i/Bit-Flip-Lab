@@ -1,0 +1,84 @@
+/*
+ * BIT FLIP LAB — token block
+ * Direction: Forensic Instrument Panel
+ * Every value in the application resolves from here. No component may
+ * introduce a raw px, a one-off colour, or an off-scale spacing value.
+ */
+
+:root {
+  /* ── TYPE ──────────────────────────────────────────────────────────
+     One ratio for the whole application: 1.200 (minor third).
+     Dense instrumentation needs small steps between levels.          */
+  --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --font-text: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+
+  --step--2: 0.694rem; /* 11.09px — ruler tick labels only */
+  --step--1: 0.833rem; /* 13.33px — metadata, labels      */
+  --step-0: 1rem; /* 16px — body                        */
+  --step-1: 1.2rem; /* 19.20px — panel headings          */
+  --step-2: 1.44rem; /* 23.04px — subsection              */
+  --step-3: 1.728rem; /* 27.65px — display                 */
+  --step-4: 2.074rem; /* 33.18px — large display           */
+  --step-5: 2.488rem; /* 39.81px — hero                    */
+
+  --leading-body: 1.6;
+  --leading-tight: 1.1;
+  --leading-display: 0.95;
+
+  /* ── SPACE ─────────────────────────────────────────────────────────
+     Base unit 4px. Every margin, padding and gap is one of these.   */
+  --space-3xs: 0.25rem; /*  4px */
+  --space-2xs: 0.5rem; /*  8px */
+  --space-xs: 0.75rem; /* 12px */
+  --space-s: 1rem; /* 16px */
+  --space-m: 1.5rem; /* 24px */
+  --space-l: 2rem; /* 32px */
+  --space-xl: 3rem; /* 48px */
+  --space-2xl: 4.5rem; /* 72px */
+  --space-3xl: 6rem; /* 96px */
+
+  /* ── COLOUR ────────────────────────────────────────────────────────
+     A graphite bench. Three ink levels. One accent. The severity ramp
+     is semantic: it encodes measured consequence, never decoration.   */
+  --base: #0b0d10; /* bench surface — the page            */
+  --surface: #12151a; /* instrument panel                    */
+  --surface-2: #181c23; /* inset well, table zebra             */
+  --surface-3: #21262f; /* control rest                        */
+  --ink: #e8ecf1; /* primary    16.1:1 on --base          */
+  --ink-2: #9ba6b4; /* secondary   8.1:1 on --base          */
+  --ink-3: #7d8794; /* tertiary    5.1:1 on --base          */
+  --line: #222932; /* engraved hairline                    */
+  --line-strong: #6b7683; /* meaning-bearing boundary, 3.9:1 on --surface */
+
+  --accent: #ffb020; /* the mutation event — 10.5:1 on --base */
+  --accent-ink: #0b0d10; /* text on --accent                      */
+
+  /* Severity ramp. Colour is never the only signal: every severity is
+     also labelled in text and carries a distinct marker glyph.        */
+  --sev-stable: #7d8794;
+  --sev-minor: #ffb020;
+  --sev-major: #ff6b35;
+  --sev-critical: #ff3b30;
+
+  /* ── FORM ──────────────────────────────────────────────────────────
+     Machined square panels. Depth from rules and space, not shadow.  */
+  --radius: 0;
+  --border: 1px solid var(--line);
+  --border-strong: 1px solid var(--line-strong);
+  --shadow: none;
+
+  /* ── MOTION ──────────────────────────────────────────────────────
+     Three durations, two easings. Transitions express measurement
+     completion, never ambience.                                       */
+  --dur-fast: 90ms;
+  --dur: 180ms;
+  --dur-slow: 360ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── INSTRUMENT GEOMETRY ─────────────────────────────────────────── */
+  --byte-row-h: 1.875rem; /* 30px — inspector row pitch; must match ROW_HEIGHT */
+  --bit-w: 0.55rem; /*  8.8px — one bit cell in the inspector  */
+  --addr-w: 4.5rem; /*  72px — address gutter                 */
+  --rail-w: 15rem; /* 240px — left instrument rail            */
+}

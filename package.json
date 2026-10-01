@@ -1,0 +1,55 @@
+{
+  "name": "bit-flip-lab",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Deterministic bit-level fault injection and measurement lab for seeing exactly what one changed bit does.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "lint": "tsc -b",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "qa": "python qa/capture.py http://127.0.0.1:4173 qa/out",
+    "qa:a11y": "python qa/a11y.py http://127.0.0.1:4173 qa/out",
+    "qa:check": "python qa/release_checks.py http://127.0.0.1:4173",
+    "qa:gate": "python qa/release_gate.py",
+    "qa:probe": "python qa/probe.py http://127.0.0.1:4173",
+    "qa:readme": "python qa/readme_check.py",
+    "qa:gif": "python qa/hero_gif.py http://127.0.0.1:4173 docs/hero.gif",
+    "qa:shots": "python qa/readme_shots.py http://127.0.0.1:4173 docs",
+    "verify": "npm run lint && npm run test && npm run build && npm run test:e2e"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.47.2",
+    "@types/node": "^22.7.5",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.2",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.9",
+    "vitest": "^2.1.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "fault-injection",
+    "bit-flip",
+    "binary-analysis",
+    "experimentation",
+    "data-integrity",
+    "visualization",
+    "forensics",
+    "testing",
+    "typescript"
+  ]
+}

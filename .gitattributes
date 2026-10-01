@@ -1,0 +1,13 @@
+# Normalise line endings in the repository to LF.
+# Without this, a Windows checkout with core.autocrlf=true re-writes every text
+# file to CRLF on contact, producing spurious whole-file diffs.
+* text=auto eol=lf
+
+# README.md was originally committed as UTF-16LE, whose NUL bytes make git treat
+# it as binary and suppress all textual diffs. These lines are what make it read
+# as text again.
+README.md text eol=lf diff
+
+# Snapshots and captures are binary by nature; do not attempt normalisation.
+*.png binary
+*.gif binary
